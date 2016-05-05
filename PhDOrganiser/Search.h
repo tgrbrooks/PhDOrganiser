@@ -21,20 +21,26 @@ public:
 	Search(std::unordered_map<int, std::shared_ptr<Event>> eventsin) : Organise(eventsin) {}
 	// Destructor - clean up unordered map
 	~Search(){}
+
 	// Copy constructor and copy assignment declaration
 	Search(Search&);
 	Search& operator=(Search&);
 	// Move constructor and move assignment declaration
 	Search(Search&&);
 	Search& operator=(Search&&);
+
 	// Overridden print results function - show id, event type and name and searched value
 	void printResults() const;
+
 	// Template function to search everything for number or string or date - search through all event types and all member data
 	template<class T> void searchFor(T search_parameter);
+
 	// Template function to search keyword matched events (e.g. experiment = SBND) for number or string or date
 	template<class T> void searchKeywordFor(std::string keyword, T search_parameter);
+
 	// Function to search member files for number or string - print id, event name and type, file name, number of times search parameter occurs
 	void searchFilesFor(std::string search_parameter);
+
 	// Accessor function for container of searched results
 	std::vector<std::pair<std::shared_ptr<Event>, std::pair<std::string, std::string>>> getResults();
 
@@ -43,6 +49,8 @@ public:
 
 // Template function to search everything for number or string or date - search through all event types and all member data
 template<class T> void Search::searchFor(T search_parameter) {
+
+	_search_results.clear();
 
 	// Temporary vector of search results
 	std::vector<std::pair<std::shared_ptr<Event>, std::pair<std::string, std::string>>> temp;
@@ -76,15 +84,33 @@ template<class T> void Search::searchFor(T search_parameter) {
 	else if (std::is_same<T, std::string>::value) {
 		// search name and type (all), location (clmps), field (c), role (cp), lecturer (l), project (ewp), experiment(ewmps), group(m)
 		for (auto event : _events){
-			if (noCaseCompare(event.second->getName(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Name", event.second->getName())));
-			if (noCaseCompare(event.second->getType(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Event type", event.second->getType())));
-			if (noCaseCompare(event.second->getLocation(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Location", event.second->getLocation())));
-			if (noCaseCompare(event.second->getField(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Field", event.second->getField())));
-			if (noCaseCompare(event.second->getRole(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Role", event.second->getRole())));
-			if (noCaseCompare(event.second->getLecturer(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Lecturer", event.second->getLecturer())));
-			if (noCaseCompare(event.second->getProject(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Project", event.second->getProject())));
-			if (noCaseCompare(event.second->getExperiment(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Experiment", event.second->getExperiment())));
-			if (noCaseCompare(event.second->getGroup(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Group", event.second->getGroup())));
+			if (upperCase(event.second->getName()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Name", event.second->getName())));
+			}
+			if (upperCase(event.second->getType()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Event type", event.second->getType())));
+			}
+			if (upperCase(event.second->getLocation()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Location", event.second->getLocation())));
+			}
+			if (upperCase(event.second->getField()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Field", event.second->getField())));
+			}
+			if (upperCase(event.second->getRole()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Role", event.second->getRole())));
+			}
+			if (upperCase(event.second->getLecturer()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Lecturer", event.second->getLecturer())));
+			}
+			if (upperCase(event.second->getProject()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Project", event.second->getProject())));
+			}
+			if (upperCase(event.second->getExperiment()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Experiment", event.second->getExperiment())));
+			}
+			if (upperCase(event.second->getGroup()).find(upperCase(search_parameter)) != std::string::npos){
+				temp.push_back(std::make_pair(event.second, std::make_pair("Group", event.second->getGroup())));
+			}
 		}
 		// Replace the any previous search results with the new results
 		_search_results = temp;
@@ -95,6 +121,8 @@ template<class T> void Search::searchFor(T search_parameter) {
 
 // Template function to search keyword matched events (e.g. experiment = SBND) for number or string or date
 template<class T> void Search::searchKeywordFor(std::string keyword, T search_parameter) {
+
+	_search_results.clear();
 
 	// Temporary vector of search results
 	std::vector<std::pair<std::shared_ptr<Event>, std::pair<std::string, std::string>>> temp;
@@ -146,55 +174,73 @@ template<class T> void Search::searchKeywordFor(std::string keyword, T search_pa
 		// Match related keywords and search events for those fields
 		if (noCaseCompare(keyword, "location")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getLocation(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Location", event.second->getLocation())));
+				if (upperCase(event.second->getLocation()).find(upperCase(search_parameter)) != std::string::npos) {
+					temp.push_back(std::make_pair(event.second, std::make_pair("Location", event.second->getLocation())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "name")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getName(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Name", event.second->getName())));
+				if (upperCase(event.second->getName()).find(upperCase(search_parameter)) != std::string::npos) {
+					temp.push_back(std::make_pair(event.second, std::make_pair("Name", event.second->getName())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "type")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getType(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Event type", event.second->getType())));
+				if (upperCase(event.second->getType()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Event type", event.second->getType())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "role")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getRole(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Role", event.second->getRole())));
+				if (upperCase(event.second->getRole()).find(upperCase(search_parameter)) != std::string::npos) {
+					temp.push_back(std::make_pair(event.second, std::make_pair("Role", event.second->getRole())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "field")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getField(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Field", event.second->getField())));
+				if (upperCase(event.second->getField()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Field", event.second->getField())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "experiment")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getExperiment(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Experiment", event.second->getExperiment())));
+				if (upperCase(event.second->getExperiment()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Experiment", event.second->getExperiment())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "group")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getGroup(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Group", event.second->getGroup())));
+				if (upperCase(event.second->getGroup()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Group", event.second->getGroup())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "project")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getProject(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Project", event.second->getProject())));
+				if (upperCase(event.second->getProject()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Project", event.second->getProject())));
+				}
 			}
 			_search_results = temp;
 		}
 		else if (noCaseCompare(keyword, "lecturer")){
 			for (auto event : _events){
-				if (noCaseCompare(event.second->getLecturer(), search_parameter)) temp.push_back(std::make_pair(event.second, std::make_pair("Lecturer", event.second->getLecturer())));
+				if (upperCase(event.second->getLecturer()).find(upperCase(search_parameter)) != std::string::npos){
+					temp.push_back(std::make_pair(event.second, std::make_pair("Lecturer", event.second->getLecturer())));
+				}
 			}
 			_search_results = temp;
 		}

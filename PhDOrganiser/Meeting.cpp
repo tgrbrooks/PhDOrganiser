@@ -3,6 +3,12 @@
 
 #include "Meeting.h"
 
+// Default constructor
+Meeting::Meeting() : _location("unknown"), _group("unknown"), _experiment("unknown"), _num_attendees(0) { Event::_type = "Meeting"; }
+
+// Parameterised constructor
+Meeting::Meeting(std::string namein, std::string locationin, std::string experimentin, std::string groupin, int attendeesin) : Event(namein, "Meeting"), _location(locationin), _group(groupin), _experiment(experimentin), _num_attendees(attendeesin) {}
+
 // Overridden create file function
 void Meeting::createFile(std::string file_name) {
 	bool overwrite_flag;
@@ -99,8 +105,10 @@ void Meeting::setSolved(bool){ std::cout << "WARNING: Field does not exist" << s
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const Meeting &M) {
 	os << "---- Event::Meeting ----" << std::endl
-		<< "Name: " << M._name << " Location: " << M._location << " Start: " << M._start << " End: " << M._end << std::endl
-		<< "Experiment: " << M._experiment << " Group: " << M._group << " Number of Attendees: " << M._num_attendees << std::endl
+		<< "Name: " << M._name << std::endl << "Location: " << M._location << std::endl
+		<< "Start: " << M._start << std::endl << "End: " << M._end << std::endl
+		<< "Experiment: " << M._experiment << std::endl << "Group: " << M._group << std::endl
+		<< "Number of Attendees: " << M._num_attendees << std::endl
 		<< "Minutes: " << M._minutes.getName() << std::endl
 		<< "------------------------" << std::endl;
 	return os;
@@ -113,9 +121,13 @@ istream & operator>>(istream &is, Meeting &M) {
 	DateAndTime start, end;
 	int num_attendees;
 	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> location >> ignore >> start >> ignore >> end
-		>> ignore >> experiment >> ignore >> group >> ignore >> ignore >> ignore >> num_attendees 
-		>> ignore >> minutes;
+	getline(is, name); name.erase(0, 6);
+	getline(is, location); location.erase(0, 10);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, experiment); experiment.erase(0, 12);
+	getline(is, group); group.erase(0, 7);
+	is >> ignore >> ignore >> ignore >> num_attendees >> ignore >> minutes;
 	Meeting temp(name, location, experiment, group, num_attendees);
 	temp.setStart(start); temp.setEnd(end); temp.setMinutes(minutes);
 	M = temp;

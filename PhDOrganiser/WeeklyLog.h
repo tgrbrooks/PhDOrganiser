@@ -19,6 +19,7 @@ public:
 	WeeklyLog(std::string namein, std::string projectin, std::string experimentin);
 	// Destructor
 	~WeeklyLog(){}
+
 	// Overridden save function - using overloaded >>
 	void save(std::string file_name);
 	void print();

@@ -28,7 +28,12 @@ std::string upperCase(std::string input) {
 		*it = toupper(*it);
 	return input;
 }
-
+std::string upperCase(int input) {
+	return "null";
+}
+std::string upperCase(DateAndTime input) {
+	return "null";
+}
 
 // Compare string and int functions to avoid the compilation breaking
 bool operator==(const int &I, const std::string &S){ return false; }

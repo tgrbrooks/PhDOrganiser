@@ -3,6 +3,12 @@
 
 #include "Log.h"
 
+// Default constructor
+Log::Log() : _project("unknown"), _experiment("unknown") {}
+
+// Parameterised constructor
+Log::Log(std::string namein, std::string typein, std::string projectin, std::string experimentin) : Event(namein, typein), _project(projectin), _experiment(experimentin) {}
+
 // Overridden create file function
 void Log::createFile(std::string file_name) {
 	bool overwrite_flag;

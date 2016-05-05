@@ -48,6 +48,7 @@ public:
 	virtual std::string getRole() const = 0;
 	virtual std::string getGroup() const = 0;
 	virtual std::string getLecturer() const = 0;
+
 	// Virtual mutators for easier editing
 	virtual void setNumber(int) = 0;
 	virtual void setNumAttendees(int) = 0;
@@ -65,6 +66,7 @@ public:
 	void printTimeToEvent();
 	double getDuration();
 	void printDuration();
+
 	// Real accessor and mutator functions for ID, name and start/end times
 	int getId() const;
 	std::string getName() const;

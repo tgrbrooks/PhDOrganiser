@@ -21,6 +21,8 @@ bool noCaseFind(const std::string & line, const std::string & search_parameter);
 
 // Convert string to uppercase for comparison
 std::string upperCase(std::string input);
+std::string upperCase(int input);
+std::string upperCase(DateAndTime input);
 
 // Compare string and int functions to avoid the compilation breaking
 bool operator==(const int &I, const std::string &S);

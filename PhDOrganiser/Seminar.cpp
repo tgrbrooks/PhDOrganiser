@@ -3,6 +3,12 @@
 
 #include "Seminar.h"
 
+// Default constructor
+Seminar::Seminar() : _location("unknown"), _experiment("unknown") { Event::_type = "Seminar"; }
+// Parameterised constructor
+
+Seminar::Seminar(std::string namein, std::string locationin, std::string experimentin) : Event(namein, "Seminar"), _location(locationin), _experiment(experimentin) {}
+
 // Overridden create file function
 void Seminar::createFile(std::string file_name) {
 	bool overwrite_flag;
@@ -89,7 +95,8 @@ void Seminar::setSolved(bool){ std::cout << "WARNING: Field does not exist" << s
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const Seminar &S) {
 	os << "---- Event::Seminar ----" << std::endl
-		<< "Name: " << S._name << " Location: " << S._location << " Start: " << S._start << " End: " << S._end << std::endl
+		<< "Name: " << S._name << std::endl << "Location: " << S._location << std::endl 
+		<< "Start: " << S._start << std::endl << "End: " << S._end << std::endl
 		<< "Experiment: " << S._experiment << std::endl
 		<< "Notes: " << S._notes.getName() << std::endl
 		<< "------------------------" << std::endl;
@@ -101,10 +108,13 @@ istream & operator>>(istream &is, Seminar &S) {
 	std::string ignore;
 	std::string name, location, experiment, notes;
 	DateAndTime start, end;
-	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> location >> ignore >> start >> ignore >> end
-		>> ignore >> experiment 
-		>> ignore >> notes;
+	// Read in fields as they are output in the save function
+	getline(is, name); name.erase(0, 6);
+	getline(is, location); location.erase(0, 10);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, experiment); experiment.erase(0, 12);
+	is >> ignore >> notes;
 	Seminar temp(name, location, experiment);
 	temp.setStart(start); temp.setEnd(end); temp.setNotes(notes);
 	S = temp;

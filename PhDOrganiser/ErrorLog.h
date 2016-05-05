@@ -16,6 +16,7 @@ class ErrorLog : public Log
 protected:
 	// True if error fixed, false if not
 	bool _solved;
+
 public:
 	// Default constructor - Set start and end as the same
 	ErrorLog();
@@ -23,6 +24,7 @@ public:
 	ErrorLog(std::string namein, std::string projectin, std::string experimentin, bool solvedin);
 	// Destructor
 	~ErrorLog(){}
+
 	// Overridden save function - using overloaded >>
 	void save(std::string file_name);
 	void print();

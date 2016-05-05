@@ -23,11 +23,12 @@ protected:
 
 public:
 	// Default constructor
-	Meeting() : _location("unknown"), _group("unknown"), _experiment("unknown"), _num_attendees(0) { Event::_type = "Meeting"; }
+	Meeting();
 	// Parameterised constructor
-	Meeting(std::string namein, std::string locationin, std::string experimentin, std::string groupin, int attendeesin) : Event(namein, "Meeting"), _location(locationin), _group(groupin), _experiment(experimentin), _num_attendees(attendeesin) {}
+	Meeting(std::string namein, std::string locationin, std::string experimentin, std::string groupin, int attendeesin);
 	// Destructor
 	~Meeting(){}
+
 	// Overridden create file function
 	void createFile(std::string file_name);
 	// Overridden delete file function
@@ -35,6 +36,7 @@ public:
 	// Overridden save function - using overloaded >>
 	void save(std::string file_name);
 	void print();
+
 	// Accessors and mutators for location, project, number of attendees and minutes
 	std::string getLocation() const;
 	void setLocation(std::string location);
@@ -53,6 +55,7 @@ public:
 	std::string getProject() const;
 	std::string getRole() const;
 	std::string getLecturer() const;
+
 	// Not applicable mutators for easier editing
 	void setNumber(int);
 	void setField(std::string);

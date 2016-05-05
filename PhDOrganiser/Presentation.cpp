@@ -3,6 +3,12 @@
 
 #include "Presentation.h"
 
+// Default constructor
+Presentation::Presentation() : _location("unknown"), _role("unknown"), _project("unknown"), _experiment("unknown") { Event::_type = "Presentation"; }
+
+// Parameterised constructor
+Presentation::Presentation(std::string namein, std::string locationin, std::string rolein, std::string projectin, std::string experimentin) : Event(namein, "Presentation"), _location(locationin), _role(rolein), _project(projectin), _experiment(experimentin) {}
+
 // Overridden create file function
 void Presentation::createFile(std::string file_name) {
 	bool overwrite_flag;
@@ -98,9 +104,10 @@ void Presentation::setSolved(bool){ std::cout << "WARNING: Field does not exist"
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const Presentation &P) {
 	os << "---- Event::Presentation ----" << std::endl
-		<< "Name: " << P._name << " Location: " << P._location << " Start: " <<P._start << " End: " << P._end << std::endl
-		<< "Experiment: " << P._experiment << " Project: " << P._project << " Role: " << P._role << std::endl
-		<< "Notes: " << P._notes.getName() << std::endl
+		<< "Name: " << P._name << std::endl << "Location: " << P._location << std::endl
+		<< "Start: " << P._start << std::endl << "End: " << P._end << std::endl
+		<< "Experiment: " << P._experiment << std::endl << "Project: " << P._project << std::endl
+		<< "Role: " << P._role << std::endl << "Notes: " << P._notes.getName() << std::endl
 		<< "-----------------------------" << std::endl;
 	return os;
 }
@@ -111,9 +118,14 @@ istream & operator>>(istream &is, Presentation &P) {
 	std::string name, location, experiment, project, role, notes;
 	DateAndTime start, end;
 	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> location >> ignore >> start >> ignore >> end
-		>> ignore >> experiment >> ignore >> project >> ignore >> role
-		>> ignore >> notes;
+	getline(is, name); name.erase(0, 6);
+	getline(is, location); location.erase(0, 10);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, experiment); experiment.erase(0, 12);
+	getline(is, project); project.erase(0, 9);
+	getline(is, role); role.erase(0, 6);
+	is >> ignore >> notes;
 	Presentation temp(name, location, experiment, project, role);
 	temp.setStart(start); temp.setEnd(end); temp.setNotes(notes);
 	P = temp;

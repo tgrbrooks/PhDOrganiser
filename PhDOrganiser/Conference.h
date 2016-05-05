@@ -21,11 +21,12 @@ protected:
 
 public:
 	// Default constructor
-	Conference() : _location("unknown"), _field("unknown"), _role("unknown") { Event::_type = "Conference"; }
+	Conference();
 	// Parameterised constructor
-	Conference(std::string namein, std::string locationin, std::string fieldin, std::string rolein) : Event(namein, "Conference"), _location(locationin), _field(fieldin), _role(rolein) {}
+	Conference(std::string namein, std::string locationin, std::string fieldin, std::string rolein);
 	// Destructor
 	~Conference(){}
+
 	// Overridden create file function
 	void createFile(std::string file_name);
 	// Overridden delete file function
@@ -33,6 +34,7 @@ public:
 	// Overridden save function - using overloaded >>
 	void save(std::string file_name);
 	void print();
+
 	// Accessors and mutators for location, field, role and notes
 	std::string getLocation() const;
 	void setLocation(std::string location);
@@ -50,6 +52,7 @@ public:
 	std::string getProject() const;
 	std::string getGroup() const;
 	std::string getLecturer() const;
+
 	// Not applicable mutators for easier editing
 	void setNumber(int);
 	void setNumAttendees(int);

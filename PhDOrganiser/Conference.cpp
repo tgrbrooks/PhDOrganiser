@@ -3,10 +3,17 @@
 
 #include "Conference.h"
 
+// Default constructor
+Conference::Conference() : _location("unknown"), _field("unknown"), _role("unknown") { Event::_type = "Conference"; }
+
+// Parameterised constructor
+Conference::Conference(std::string namein, std::string locationin, std::string fieldin, std::string rolein) : Event(namein, "Conference"), _location(locationin), _field(fieldin), _role(rolein) {}
+
 // Overridden create file function
 void Conference::createFile(std::string file_name) {
 	bool overwrite_flag;
 	std::string overwrite;
+
 	// If a file already exists ask if user wants to overwrite
 	if (_notes.getName() != "none"){
 		while (overwrite != "y" && overwrite != "n"){
@@ -15,12 +22,14 @@ void Conference::createFile(std::string file_name) {
 			if (overwrite == "n") overwrite_flag = 0;
 			if (overwrite == "y") overwrite_flag = 1;
 		}
+
 		// If user wants to overwrite delete old file and create a new one
 		if (overwrite_flag){
 			_notes.deleteFile();
 			_notes.createFile(file_name);
 		}
 	}
+
 	else {
 		_notes.createFile(file_name);
 	}
@@ -37,7 +46,7 @@ void Conference::deleteFile() {
 }
 
 // Overridden save function - using overloaded >>
-void Conference::save(std::string file_name) {
+void Conference::save(std::string file_name){
 	// Check if file already exists, if it does write to the end of it
 	ofstream saveFile;
 	saveFile.open(file_name.c_str(), std::ios::app);
@@ -82,6 +91,7 @@ std::string Conference::getExperiment() const{ return "null"; }
 std::string Conference::getProject() const{ return "null"; }
 std::string Conference::getGroup() const{ return "null"; }
 std::string Conference::getLecturer() const{ return "null"; }
+
 // Not applicable mutators for easier editing
 void Conference::setNumber(int){ std::cout << "WARNING: Field does not exist" << std::endl; }
 void Conference::setNumAttendees(int){ std::cout << "WARNING: Field does not exist" << std::endl; }
@@ -94,8 +104,9 @@ void Conference::setSolved(bool){ std::cout << "WARNING: Field does not exist" <
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const Conference &C) {
 	os << "---- Event::Conference ----" << std::endl
-		<< "Name: " << C._name << " Location: " << C._location << " Start: " << C._start << " End: " << C._end << std::endl
-		<< "Field: " << C._field << " Role: " << C._role << std::endl
+		<< "Name: " << C._name << std::endl << "Location: " << C._location << std::endl
+		<< "Start: " << C._start << std::endl << "End: " << C._end << std::endl
+		<< "Field: " << C._field << std::endl << "Role: " << C._role << std::endl
 		<< "Notes: " << C._notes.getName() << std::endl
 		<< "--------------------------" << std::endl;
 	return os;
@@ -106,10 +117,17 @@ istream & operator>>(istream &is, Conference &C) {
 	std::string ignore;
 	std::string name, location, field, role, notes;
 	DateAndTime start, end;
+
 	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> location >> ignore >> start >> ignore >> end
-		>> ignore >> field >> ignore >> role
-		>> ignore >> notes;
+	getline(is, name); name.erase(0, 6);
+	getline(is, location); location.erase(0, 10);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, field); field.erase(0, 7);
+	getline(is, role); role.erase(0, 6);
+	is >> ignore >> notes;
+
+	// Create a temporary conference
 	Conference temp(name, location, field, role);
 	temp.setStart(start); temp.setEnd(end); temp.setNotes(notes);
 	C = temp;

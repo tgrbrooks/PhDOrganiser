@@ -29,11 +29,13 @@ public:
 	TextFile(string namein);
 	// Default destructor
 	~TextFile() {}
+
 	// Accessor for name
 	string getName() const;
 	// Mutator for name (must change actual file name)
 	void setName(string name);
 	void changeName(string name);
+
 	// Create new txt or dat file and write to it (check for existing file & ends in .txt or .dat)
 	void createFile(string name);
 	// Open and edit existing txt or dat file (check whether file exists)

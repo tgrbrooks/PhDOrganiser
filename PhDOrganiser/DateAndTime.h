@@ -18,11 +18,14 @@ class DateAndTime
 	// Friends of class output stream and input stream
 	friend ostream & operator<<(ostream &os, const DateAndTime &DT);
 	friend istream & operator>>(istream &is, DateAndTime &DT);
+
 	// Friends for comparison
 	friend bool operator>(const DateAndTime &DT1, const DateAndTime &DT2);
 	friend bool operator<(const DateAndTime &DT1, const DateAndTime &DT2);
+
 	// Compare just the date and ignore the time
 	friend bool operator==(const DateAndTime &DT1, const DateAndTime &DT2);
+
 	// Comparison functions to avoid breaking the compilation
 	friend bool operator==(const std::string &S, const DateAndTime &DT) { return false; }
 	friend bool operator==(const DateAndTime &DT, const std::string &S) { return false; }
@@ -51,19 +54,21 @@ public:
 	void setDate(int dayin, int monthin, int yearin);
 	// Function to set time
 	void setTime(int hourin, int minin);
+
 	// Accessor functions
 	int getDay() const;
 	int getMonth() const;
 	int getYear() const;
 	int getHour() const;
 	int getMinutes() const;
+
 	// Functions to calculate the time in seconds between two dates and the time until
 	double timeBetween(const DateAndTime &DT) const;
 	double timeUntil() const;
 	// Functions to display a readable form of the time between two dates and the time until the current dates
 	void printTimeBetween(const DateAndTime &DT) const;
 	void printTimeUntil() const;
-	string makeString();
+	string makeString() const;
 
 };
 

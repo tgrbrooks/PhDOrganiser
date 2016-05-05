@@ -33,6 +33,7 @@ bool checkTime(int hour, int minutes) {
 
 // Parametrised constructor
 DateAndTime::DateAndTime(int dayin, int monthin, int yearin, int hourin, int minin) {
+	// Check if the date and time are valid
 	if (checkDate(dayin, monthin, yearin) && checkTime(hourin, minin)){
 		_day = dayin; _month = monthin; _year = yearin; _hour = hourin; _minutes = minin;
 	} else {
@@ -41,13 +42,14 @@ DateAndTime::DateAndTime(int dayin, int monthin, int yearin, int hourin, int min
 	}
 }
 
-// Move constructor and move assignment
+// Move constructor
 DateAndTime::DateAndTime(DateAndTime &&DT){
 	// Steal the data
 	_day = DT._day; _month = DT._month; _year = DT._year; _hour = DT._hour; _minutes = DT._minutes;
 	DT._day = 0; DT._month = 0; DT._year = 0; DT._hour = 0; DT._minutes = 0;
 }
 
+// Move assignment
 DateAndTime& DateAndTime::operator=(DateAndTime &&DT){
 	// Use swap function to steal the data
 	swap(_day, DT._day); swap(_month, DT._month); swap(_year, DT._year);
@@ -57,6 +59,7 @@ DateAndTime& DateAndTime::operator=(DateAndTime &&DT){
 
 // Function to set date and time
 void DateAndTime::set(int dayin, int monthin, int yearin, int hourin, int minin) {
+	// Check the date and time are valid
 	if (checkDate(dayin, monthin, yearin) && checkTime(hourin, minin)){
 		_day = dayin; _month = monthin; _year = yearin; _hour = hourin; _minutes = minin;
 	}
@@ -67,6 +70,7 @@ void DateAndTime::set(int dayin, int monthin, int yearin, int hourin, int minin)
 
 // Function to set date
 void DateAndTime::setDate(int dayin, int monthin, int yearin) {
+	// Check the date is valid
 	if (checkDate(dayin, monthin, yearin)){
 		_day = dayin; _month = monthin; _year = yearin;
 	}
@@ -77,6 +81,7 @@ void DateAndTime::setDate(int dayin, int monthin, int yearin) {
 
 // Function to set time
 void DateAndTime::setTime(int hourin, int minin) {
+	// Check the time is valid
 	if (checkTime(hourin, minin)){
 		_hour = hourin; _minutes = minin;
 	}
@@ -153,7 +158,7 @@ void DateAndTime::printTimeUntil() const {
 }
 
 // Convert to a string
-string DateAndTime::makeString() {
+string DateAndTime::makeString() const{
 	ostringstream oss;
 	oss << std::setw(2) << std::setfill('0') << _day << "/"
 		<< std::setw(2) << std::setfill('0') << _month << "/"
@@ -190,7 +195,7 @@ bool operator>(const DateAndTime &DT1, const DateAndTime &DT2) {
 }
 
 bool operator<(const DateAndTime &DT1, const DateAndTime &DT2) {
-	if (DT2.timeBetween(DT2) > 0) return true;
+	if (DT1.timeBetween(DT2) > 0) return true;
 	else return false;
 }
 // Just compare the date

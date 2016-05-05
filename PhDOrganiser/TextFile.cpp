@@ -36,32 +36,44 @@ string TextFile::getName() const{
 
 // Mutator for name
 void TextFile::setName(string new_name){
-
+	
 	// Check the current file actually exists
 	ifstream inFile(_name.c_str());
 	if (!inFile.good()){
 		inFile.close();
 		ifstream newFile(new_name.c_str());
 		// Get the file extension of the new name
-		size_t pos = new_name.find(".");
-		string file_extension = new_name.substr(pos);
-
-		// Check to see if the new file name corresponds to an existing file
-		if (!newFile.good()){
-			newFile.close();
-			cout << "WARNING: The file " << new_name << " does not exist!" << endl;
+		std::string file_extension;
+		try{
+			size_t pos = new_name.find(".");
+			file_extension = new_name.substr(pos);
 		}
-
-		// Check to see if the file extension is correct
-		else if (file_extension != ".txt" && file_extension != ".dat") {
-			newFile.close();
-			cout << "WARNING: New file must be either .txt or .dat" << endl;
+		catch (...){
+			if (new_name == "none"){
+				_name = new_name;
+			}
+			else{
+				file_extension = "none";
+			}
 		}
+		if (new_name != "none"){
+			// Check to see if the new file name corresponds to an existing file
+			if (!newFile.good()){
+				newFile.close();
+				cout << "WARNING: The file " << new_name << " does not exist!" << endl;
+			}
 
-		// Rename the file
-		else{
-			newFile.close();
-			_name = new_name;
+			// Check to see if the file extension is correct
+			else if (file_extension != ".txt" && file_extension != ".dat") {
+				newFile.close();
+				cout << "WARNING: New file must be either .txt or .dat" << endl;
+			}
+
+			// Rename the file
+			else{
+				newFile.close();
+				_name = new_name;
+			}
 		}
 	}
 
@@ -80,8 +92,14 @@ void TextFile::changeName(string new_name){
 		inFile.close();
 		ifstream newFile(new_name.c_str());
 		// Get the file extension of the new name
-		size_t pos = new_name.find(".");
-		string file_extension = new_name.substr(pos);
+		std::string file_extension;
+		try {
+			size_t pos = new_name.find(".");
+			file_extension = new_name.substr(pos);
+		}
+		catch (...) {
+			file_extension = "none";
+		}
 
 		// Check to see if the new file name corresponds to an existing file
 		if (newFile.good()){
@@ -262,7 +280,7 @@ int TextFile::searchFile(std::string search_parameter){
 	// Check file exists
 	if (!inFile.good()){
 		inFile.close();
-		cout << "WARNING: The file " << _name << " does not exist" << endl;
+		return num_matches;
 	}
 	else {
 		std::string line;

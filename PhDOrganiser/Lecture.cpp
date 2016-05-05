@@ -3,6 +3,12 @@
 
 #include "Lecture.h"
 
+// Default constructor
+Lecture::Lecture() : _location("unknown"), _lecturer("unknown"), _number(0) { Event::_type = "Lecture"; }
+
+// Parameterised constructor
+Lecture::Lecture(std::string namein, std::string locationin, std::string lecturerin, int numberin) : Event(namein, "Lecture"), _location(locationin), _lecturer(lecturerin), _number(numberin) {}
+
 // Overridden create file function
 void Lecture::createFile(std::string file_name) {
 	bool overwrite_flag;
@@ -94,8 +100,9 @@ void Lecture::setSolved(bool){ std::cout << "WARNING: Field does not exist" << s
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const Lecture &L) {
 	os << "---- Event::Lecture ----" << std::endl
-		<< "Name: " << L._name << " Location: " << L._location << " Start: " << L._start << " End: " << L._end << std::endl
-		<< "Lecturer: " << L._lecturer << " Lecture number: " << L._number << std::endl
+		<< "Name: " << L._name << std::endl << "Location: " << L._location << std::endl
+		<< "Start: " << L._start << std::endl << "End: " << L._end << std::endl
+		<< "Lecturer: " << L._lecturer << std::endl << "Lecture number: " << L._number << std::endl
 		<< "Notes: " << L._notes.getName() << std::endl
 		<< "------------------------" << std::endl;
 	return os;
@@ -108,11 +115,14 @@ istream & operator>>(istream &is, Lecture &L) {
 	DateAndTime start, end;
 	int number;
 	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> location >> ignore >> start >> ignore >> end
-		>> ignore >> lecturer >> ignore >> ignore >> number
-		>> ignore >> notes;
+	getline(is, name); name.erase(0, 6);
+	getline(is, location); location.erase(0, 10);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, lecturer); lecturer.erase(0, 10);
+	is >> ignore >> ignore >> number >> ignore >> notes;
 	Lecture temp(name, location, lecturer, number);
-	temp.setStart(start); temp.setEnd(end); temp.setNotes(name);
+	temp.setStart(start); temp.setEnd(end); temp.setNotes(notes);
 	L = temp;
 	return is;
 }

@@ -44,8 +44,9 @@ void ErrorLog::setSolved(bool is_solved){
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const ErrorLog &EL) {
 	os << "---- Event::ErrorLog ----" << std::endl
-		<< "Name: " << EL._name << " Start: " << EL._start << " End: " << EL._end << std::endl
-		<< "Experiment: " << EL._experiment << " Project: " << EL._project << " Solved?: " << std::boolalpha << EL._solved <<std::endl
+		<< "Name: " << EL._name << std::endl << "Start: " << EL._start << std::endl << "End: " << EL._end << std::endl
+		<< "Experiment: " << EL._experiment << std::endl << "Project: " << EL._project << std::endl
+		<< "Solved?: " << std::boolalpha << EL._solved << std::endl
 		<< "Log: " << EL._log.getName() << std::endl
 		<< "-------------------------" << std::endl;
 	return os;
@@ -57,10 +58,12 @@ istream & operator>>(istream &is, ErrorLog &EL) {
 	std::string name, experiment, project, log;
 	DateAndTime start, end;
 	bool solved;
-	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> start >> ignore >> end
-		>> ignore >> experiment >> ignore >> project >> ignore >> std::boolalpha >> solved
-		>> ignore >> log;
+	getline(is, name); name.erase(0, 6);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, experiment); experiment.erase(0, 12);
+	getline(is, project); project.erase(0, 9);
+	is >> ignore >> std::boolalpha >> solved >> ignore >> log;
 	ErrorLog temp(name, project, experiment, solved);
 	temp.setStart(start); temp.setEnd(end); temp.setLog(log);
 	EL = temp;

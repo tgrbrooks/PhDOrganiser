@@ -49,8 +49,8 @@ void WeeklyLog::setSolved(bool){ std::cout << "WARNING: Field does not exist" <<
 // Output stream friend function for saving state
 ostream & operator<<(ostream &os, const WeeklyLog &WL) {
 	os << "---- Event::WeeklyLog ----" << std::endl
-		<< "Name: " << WL._name << " Start: " << WL._start << " End: " << WL._end << std::endl
-		<< "Experiment: " << WL._experiment << " Project: " << WL._project << std::endl
+		<< "Name: " << WL._name << std::endl << "Start: " << WL._start << std::endl << "End: " << WL._end << std::endl
+		<< "Experiment: " << WL._experiment << std::endl << "Project: " << WL._project << std::endl
 		<< "Log: " << WL._log.getName() << std::endl
 		<< "--------------------------" << std::endl;
 	return os;
@@ -62,9 +62,12 @@ istream & operator>>(istream &is, WeeklyLog &WL) {
 	std::string name, experiment, project, log;
 	DateAndTime start, end;
 	// Input matches << operator apart from the first and last lines - dealt with in load function
-	is >> ignore >> name >> ignore >> start >> ignore >> end
-		>> ignore >> experiment >> ignore >> project
-		>> ignore >> log;
+	getline(is, name); name.erase(0, 6);
+	is >> ignore >> start >> ignore >> end;
+	getline(is, ignore);
+	getline(is, experiment); experiment.erase(0, 12);
+	getline(is, project); project.erase(0, 9);
+	is >> ignore >> log;
 	WeeklyLog temp(name, project, experiment);
 	temp.setStart(start); temp.setEnd(end); temp.setLog(log);
 	WL = temp;

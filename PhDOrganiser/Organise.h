@@ -28,10 +28,12 @@ public:
 	Organise(std::unordered_map<int, std::shared_ptr<Event>> eventsin) : _events(eventsin) {}
 	// Virtual destructor
 	virtual ~Organise(){}
+
 	// Virtual print results function
 	virtual void printResults() const = 0;
 	// Function to print the map - print the id and event type and name
 	void printAddedEvents() const;
+
 	// Function to add event
 	void addEvent(std::shared_ptr<Event> &event);
 	// Function to remove Event by id
@@ -40,6 +42,7 @@ public:
 	void addAllEvents(std::vector<std::shared_ptr<Event>> &new_events);
 	// Function to remove all Events
 	void removeAllEvents();
+
 	std::unordered_map<int, std::shared_ptr<Event>> getEvents();
 
 };// End of Organise class

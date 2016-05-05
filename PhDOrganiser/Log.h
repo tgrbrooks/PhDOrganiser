@@ -17,15 +17,17 @@ protected:
 
 public:
 	// Default constructor
-	Log() : _project("unknown"), _experiment("unknown") {}
+	Log();
 	// Parameterised constructor
-	Log(std::string namein, std::string typein, std::string projectin, std::string experimentin) : Event(namein, typein), _project(projectin), _experiment(experimentin) {}
+	Log(std::string namein, std::string typein, std::string projectin, std::string experimentin);
 	// Virtual destructor
 	virtual ~Log() {}
+
 	// Overridden create file function
 	void createFile(std::string file_name);
 	// Overridden delete file function
 	void deleteFile();
+
 	// Accessors and mutators for project, experiment and log
 	std::string getProject() const;
 	void setProject(std::string project);
@@ -42,6 +44,7 @@ public:
 	std::string getRole()const;
 	std::string getGroup() const;
 	std::string getLecturer()const;
+
 	// Not applicable mutators for easier editing
 	void setNumber(int);
 	void setNumAttendees(int);
