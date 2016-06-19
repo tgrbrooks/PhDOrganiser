@@ -1,0 +1,63 @@
+---- Event::ErrorLog ----
+Name: help not showing
+Start: 07/05/2016 (13:23)
+End: 07/05/2016 (13:23)
+Experiment: OOP in C++
+Project: PhD Calendar
+Solved?: true
+Log: help_error.txt
+-------------------------
+---- Event::Meeting ----
+Name: Nnbar
+Location: HEP Video Conference Room
+Start: 10/05/2016 (16:00)
+End: 10/05/2016 (17:00)
+Experiment: DUNE
+Group: Nnbar
+Number of Attendees: 5
+Minutes: nnbar_wk10_minutes.txt
+------------------------
+---- Event::WeeklyLog ----
+Name: Week 11
+Start: 07/05/2016 (13:33)
+End: 14/05/2016 (13:33)
+Experiment: MicroBooNE
+Project: Shower Filter
+Log: uboone_wk10.txt
+--------------------------
+---- Event::Presentation ----
+Name: MPhys Interview
+Location: Schuster
+Start: 26/05/2016 (11:00)
+End: 26/05/2016 (12:00)
+Experiment: MicroBooNE
+Project: Shower Filter
+Role: Speaker
+Notes: none
+-----------------------------
+---- Event::Conference ----
+Name: NuPhys
+Location: London
+Start: 04/07/2016 (10:00)
+End: 09/07/2016 (18:00)
+Field: Neutrinos
+Role: Poster
+Notes: none
+--------------------------
+---- Event::Seminar ----
+Name: QFT Signals
+Location: Niels Bohr Common Room
+Start: 13/05/2016 (12:30)
+End: 13/05/2016 (14:00)
+Experiment: Theory
+Notes: none
+------------------------
+---- Event::Lecture ----
+Name: OOP in C++
+Location: Simon 6th Floor Cluster
+Start: 25/04/2016 (11:00)
+End: 25/04/2016 (12:00)
+Lecturer: Prof Niels Walet
+Lecture number: 10
+Notes: none
+------------------------
