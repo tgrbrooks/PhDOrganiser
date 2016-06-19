@@ -178,7 +178,7 @@ ostream & operator<<(ostream &os, const DateAndTime &DT) {
 	return os;
 }
 
-// Input stream friend function - MAYBE ADD FORMAT CHECKING
+// Input stream friend function
 istream & operator>>(istream &is, DateAndTime &DT) {
 	char s1,s2,ob,c,cb;
 	int dayin, monthin, yearin, hourin, minin;

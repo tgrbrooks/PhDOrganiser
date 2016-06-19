@@ -32,6 +32,7 @@ public:
 
 	// Accessor for name
 	string getName() const;
+
 	// Mutator for name (must change actual file name)
 	void setName(string name);
 	void changeName(string name);

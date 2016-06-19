@@ -10,9 +10,15 @@ TextFile::TextFile(string namein){
 	ifstream inFile(namein.c_str());
 	if (inFile.good()){
 		inFile.close();
+		string file_extension;
 		// Get the file extension of the name
-		size_t pos = namein.find(".");
-		string file_extension = namein.substr(pos);
+		try{
+			size_t pos = namein.find(".");
+			file_extension = namein.substr(pos);
+		}
+		catch (...) {
+			file_extension = "none";
+		}
 		// Check to see if the file extension is correct
 		if (file_extension != ".txt" && file_extension != ".dat") {
 			cout << "WARNING: File must be either .txt or .dat" << endl;

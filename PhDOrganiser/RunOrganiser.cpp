@@ -51,9 +51,9 @@ int main() {
 		else{
 			load_file.close();
 			// Load in all events and fill vectors of each type of event -- use function
-			std::vector<std::shared_ptr<Event>> events = loadEvents(file_name, events);
+			std::vector<std::shared_ptr<Event>> events = mainfunc::loadEvents(file_name, events);
 			// Display any events that are coming up on the same day -- use function
-			upcomingEvents(events);
+			mainfunc::upcomingEvents(events);
 			for (auto evt : events){
 				event_map.emplace(evt->getId(), evt);
 			}
@@ -67,7 +67,7 @@ int main() {
 		while (!noCaseCompare(option, "help") && !noCaseCompare(option, "new") && !noCaseCompare(option, "edit") 
 			&& !noCaseCompare(option, "sort") && !noCaseCompare(option, "calendar") && !noCaseCompare(option, "search")
 			&& !noCaseCompare(option, "exit")){
-			std::cout << std::endl << "What do you want to do? (Type ""help"" for options): ";
+			std::cout << std::endl << "What do you want to do? (Type help for options): ";
 			std::cin >> option;
 			cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
@@ -86,7 +86,7 @@ int main() {
 		else if (noCaseCompare(option, "new")){
 			// Ask user which type of event they want to create
 			// Pass type and relevant vector to function
-			event_map = createNewEvent(event_map);
+			event_map = mainfunc::createNewEvent(event_map);
 		}
 		// Edit existing events -- use function
 		else if (noCaseCompare(option, "edit")){
@@ -99,23 +99,25 @@ int main() {
 			// Ask user for the ID of the event they want to edit
 			int edit_id;
 			do {
-				std::cout << std::endl << "Which event would you like to edit?: "; std::cin >> edit_id;
-				cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				if (cin.fail()){
+					cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				}
+				std::cout << std::endl << "Which event would you like to edit? (Give ID): "; std::cin >> edit_id;
 			} while (cin.fail());
-			// Ask user if they want to edit or delete the event
-			std::string edit_or_delete;
-			while (edit_or_delete != "e"&&edit_or_delete != "d"){
-				std::cout << std::endl << "Do you want to edit (e) or delete (d) this event?: ";
-				std::cin >> edit_or_delete;
-				cin.clear();  cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
 			// Pass ID and relevant vector to function
 			if (event_map.find(edit_id) == event_map.end()){
 				std::cout << "WARNING: ID not available" << std::endl;
 			}
 			else {
+				// Ask user if they want to edit or delete the event
+				std::string edit_or_delete;
+				while (edit_or_delete != "e"&&edit_or_delete != "d"){
+					std::cout << std::endl << "Do you want to edit (e) or delete (d) this event?: ";
+					std::cin >> edit_or_delete;
+					cin.clear();  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				}
 				if (edit_or_delete == "e"){
-					event_map = editExistingEvent(edit_id, event_map);
+					event_map = mainfunc::editExistingEvent(edit_id, event_map);
 				}
 				if (edit_or_delete == "d"){
 					event_map.erase(edit_id);
@@ -125,19 +127,19 @@ int main() {
 		// Sort the events -- use function
 		else if (noCaseCompare(option, "sort")){
 			// Pass map to sort function
-			sortEvents(event_map);
+			mainfunc::sortEvents(event_map);
 
 		}
 		// Search the events -- use function
 		else if (noCaseCompare(option, "search")){
 			// Pass map to search function
-			searchEvents(event_map);
+			mainfunc::searchEvents(event_map);
 		}
 		// Print a calender either to screen or text file by month -- use function
 		else if (noCaseCompare(option, "calendar")){
 			// Ask if they want to print to screen or to a text file
 			// Pass to function along with all events
-			printCalendar(true, event_map);
+			mainfunc::printCalendar(event_map);
 		}
 		// Exit the organiser
 		else if (noCaseCompare(option, "exit")){
@@ -161,10 +163,11 @@ int main() {
 	if (save_state == "y"){
 		// If the current calendar was loaded overwrite the file with the new list of events
 		if (loaded){
-			saveState(file_name, event_map);
+			mainfunc::saveState(file_name, event_map);
 		}
 		// If not create a new file to save to
-		else saveState("none", event_map);
+		else mainfunc::saveState("none", event_map);
+		std::cout << std::endl << "Goodbye!" << std::endl;
 	}
 	else std::cout << std::endl << "Goodbye!" << std::endl;
 
