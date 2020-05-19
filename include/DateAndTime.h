@@ -44,6 +44,8 @@ public:
 	~DateAndTime(){}
 	
 	// Copy constructors are sufficient
+  DateAndTime(const DateAndTime &DT);
+  DateAndTime &operator=(const DateAndTime &DT);
 	// Move constructor and move assignment
 	DateAndTime(DateAndTime&&);
 	DateAndTime& operator=(DateAndTime&&);

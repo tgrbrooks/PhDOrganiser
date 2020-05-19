@@ -5,6 +5,29 @@ A terminal based calendar/organiser for PhD students with no external dependenci
 
 ## Installation
 
+Create a build directory
+
+```
+mkdir build
+cd build
+```
+
+Configure and build
+
+```
+cmake ..
+make
+```
+
+Source the setup script that should now be in your top level directory
+
+```
+cd ..
+. setup.sh
+```
+
+Run the organiser with the `phd` command.
+
 ## Features
 
 * Save and load different calendars

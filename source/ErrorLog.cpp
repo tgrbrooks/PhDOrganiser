@@ -9,7 +9,7 @@ ErrorLog::ErrorLog() : _solved(false) {
 	// Gets the current time and sets this as the start and end time of the log
 	time_t now = time(NULL);
 	struct tm now_info;
-	localtime_s(&now_info, &now);
+	localtime_r(&now, &now_info);
 	_start.set(now_info.tm_mday, now_info.tm_mon + 1, now_info.tm_year + 1900, now_info.tm_hour, now_info.tm_min);
 	_end = _start;
 	// When loading this will be overidden by the previous time
@@ -19,7 +19,7 @@ ErrorLog::ErrorLog() : _solved(false) {
 ErrorLog::ErrorLog(std::string namein, std::string projectin, std::string experimentin, bool solvedin) : Log(namein, "Error Log", projectin, experimentin), _solved(solvedin) {
 	time_t now = time(NULL);
 	struct tm now_info;
-	localtime_s(&now_info, &now);
+	localtime_r(&now, &now_info);
 	_start.set(now_info.tm_mday, now_info.tm_mon + 1, now_info.tm_year + 1900, now_info.tm_hour, now_info.tm_min);
 	_end = _start;
 }

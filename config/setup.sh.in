@@ -1,0 +1,4 @@
+#!/bin/bash 
+
+export PHDROOT=@PHDROOT@
+export PATH=$PHDROOT/bin:$PATH

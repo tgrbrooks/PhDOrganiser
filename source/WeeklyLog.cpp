@@ -12,8 +12,8 @@ WeeklyLog::WeeklyLog(){
 	time_t next_week = now + 7 * 24 * 60 * 60;
 	struct tm now_info;
 	struct tm next_week_info;
-	localtime_s(&now_info, &now);
-	localtime_s(&next_week_info, &next_week);
+	localtime_r(&now, &now_info);
+	localtime_r(&next_week, &next_week_info);
 	_start.set(now_info.tm_mday, now_info.tm_mon + 1, now_info.tm_year + 1900, now_info.tm_hour, now_info.tm_min);
 	_end.set(next_week_info.tm_mday, next_week_info.tm_mon + 1, next_week_info.tm_year + 1900, next_week_info.tm_hour, next_week_info.tm_min);
 	// When loaded this will be overidden
@@ -25,8 +25,8 @@ WeeklyLog::WeeklyLog(std::string namein, std::string projectin, std::string expe
 	time_t next_week = now + 7 * 24 * 60 * 60;
 	struct tm now_info;
 	struct tm next_week_info;
-	localtime_s(&now_info, &now);
-	localtime_s(&next_week_info, &next_week);
+	localtime_r(&now, &now_info);
+	localtime_r(&next_week, &next_week_info);
 	_start.set(now_info.tm_mday, now_info.tm_mon + 1, now_info.tm_year + 1900, now_info.tm_hour, now_info.tm_min);
 	_end.set(next_week_info.tm_mday, next_week_info.tm_mon + 1, next_week_info.tm_year + 1900, next_week_info.tm_hour, next_week_info.tm_min);
 }

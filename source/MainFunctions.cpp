@@ -41,7 +41,7 @@ namespace mainfunc{
 			time_t raw_time;
 			struct tm time_info;
 			time(&raw_time);
-			localtime_s(&time_info, &raw_time);
+			localtime_r(&raw_time, &time_info);
 			time_info.tm_year = year - 1900;
 			time_info.tm_mon = month - 1;
 			time_info.tm_mday = day;

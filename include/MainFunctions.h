@@ -15,6 +15,7 @@
 #include "Seminar.h"
 #include "Sort.h"
 #include "WeeklyLog.h"
+#include <time.h>
 
 namespace mainfunc{
 

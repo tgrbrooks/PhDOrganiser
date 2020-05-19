@@ -42,6 +42,17 @@ DateAndTime::DateAndTime(int dayin, int monthin, int yearin, int hourin, int min
 	}
 }
 
+// Copy constructor
+DateAndTime::DateAndTime(const DateAndTime &DT){
+  _day = DT._day; _month = DT._month; _year = DT._year; _hour = DT._hour; _minutes = DT._minutes;
+}
+
+// Copy assignment
+DateAndTime& DateAndTime::operator=(const DateAndTime &DT){
+  _day = DT._day; _month = DT._month; _year = DT._year; _hour = DT._hour; _minutes = DT._minutes;
+	return *this;
+}
+
 // Move constructor
 DateAndTime::DateAndTime(DateAndTime &&DT){
 	// Steal the data
